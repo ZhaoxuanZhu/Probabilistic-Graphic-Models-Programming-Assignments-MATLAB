@@ -39,14 +39,32 @@ for i = 1:size(E, 1),
             % Hint: You might find it helpful to use IndexToAssignment
             %       and SetValueOfAssignment
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
+            [dummy, mapV] = ismember(v, F(j).var);
+            assignments = IndexToAssignment(1:prod(F(j).card),F(j).card);
+            bin = zeros(prod(F(j).card),1);
+            for k = 1:prod(F(j).card)
+                bin(k) = (assignments(k,mapV)==x);
+            end
+            A = assignments(bin==0,:);
+%             A_size = prod(F.card)/(F.card.(mapV));
+%             A = [];
+%             for k = 1:prod(F.card)
+%                 if assignments(k,mapV)==x
+%                     A = [A;assignments(k,:)];
+%                 end
+%             end      
+                
+            F(j) = SetValueOfAssignment(F(j),A,0);
+%             indxX = AssignmentToIndex(assignments(:, mapV), F.card(mapV));
+%             for k = 1:prod(F.card)
+%                 F.val(k) = (indxX(k)==x)*F.val(k);
+%             end
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 				% Check validity of evidence / resulting factor
-            if (all(F(j).val == 0)),
+            if (all(F(j).val == 0))
                 warning(['Factor ', int2str(j), ' makes variable assignment impossible']);
             end;
-
         end;
     end;
 end;

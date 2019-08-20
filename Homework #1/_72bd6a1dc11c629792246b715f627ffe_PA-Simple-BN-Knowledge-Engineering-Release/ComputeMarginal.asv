@@ -61,7 +61,7 @@ K = FactorMarginalization(Joint_reduced,Marginal);
 if length(intersect(K.var,V))==length(V)
     J.var = V;
 else 
-    J.var = intersect(K.var,V);
+    J.var = intersect(K.var,V)
 end
 [dummy,map_J] = ismember(J.var,K.var);
 J.card = K.card(map_J);
